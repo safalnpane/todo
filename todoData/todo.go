@@ -1,7 +1,6 @@
 package todoData
 
 import (
-	"fmt"
 	"strconv"
 	"encoding/json"
 	"io/ioutil"
@@ -11,6 +10,7 @@ type Item struct {
 	Text string
 	Priority int
 	Position int
+	Done bool
 }
 
 
@@ -19,7 +19,6 @@ func SaveItems(filename string, items []Item) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(b))
 	err = ioutil.WriteFile(filename, b, 0644)
 	if err != nil {
 		return err
@@ -67,4 +66,15 @@ func (i *Item) PrettyP() string {
 
 func (i *Item) Label() string {
 	return strconv.Itoa(i.Position) + "."
+}
+
+func (i *Item) PrettyL() string {
+	if i.Done == true {
+		return "X"
+	}
+	return " "
+}
+
+func (i *Item) Complete() {
+	i.Done = true
 }
